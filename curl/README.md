@@ -41,6 +41,32 @@ curl -s https://username.md/users/$H/llms.txt
 curl -s https://username.md/.well-known/http-message-signatures-directory
 ```
 
+## Gamer presence (in development)
+
+Presence publishes as DNS SRV/TXT under the handle — the gamer-tier surface
+described at [username.md/gamers.html](https://username.md/gamers.html). These
+records are **in development**: until they're announced in
+[llms.txt](https://username.md/llms.txt), lookups return empty answers. Treat
+"no records" as *not published* (never an error) and fall back to the profile
+API, which is live today.
+
+```bash
+H=chris
+
+# In game right now? SRV answers with the join target
+dig +short SRV _playing._tcp.$H.username.md
+
+# Structured presence: live=, game=, join=, party=, next=
+dig +short TXT _presence.$H.username.md
+
+# Fallback that always answers: who is /u/$H, and what do they play?
+curl -s -H 'accept: application/json' https://username.md/v1/users/$H/profile
+```
+
+Runnable versions with the fallback chain:
+[python/squad_check.py](../python/squad_check.py) ·
+[javascript/squad-check.mjs](../javascript/squad-check.mjs).
+
 ## Inspect the response signature
 
 ```bash

@@ -15,8 +15,8 @@ needed for the read paths.
 | Directory | Covers | Runtime |
 |---|---|---|
 | [`curl/`](curl/) | Every endpoint, copy-paste one-liners | curl |
-| [`python/`](python/) | Profile fetch, signed-response verification, claims + domain verification | Python 3.10+ |
-| [`javascript/`](javascript/) | Profile fetch, signed-response verification | Node 20+ (no deps) |
+| [`python/`](python/) | Profile fetch, signed-response verification, claims + domain verification, gamer presence squad check | Python 3.10+ |
+| [`javascript/`](javascript/) | Profile fetch, signed-response verification, gamer presence squad check | Node 20+ (no deps) |
 | [`go/`](go/) | Profile fetch, signed-response verification | Go 1.21+ (stdlib only) |
 
 Each directory has its own README with setup and run instructions.
@@ -40,6 +40,11 @@ curl -s https://username.md/v1/users/chris/claims
 
 # Instructions for AI agents
 curl -s https://username.md/users/chris/llms.txt
+
+# Gamer presence — IN DEVELOPMENT: empty answers until announced in llms.txt;
+# treat "no records" as not-published and fall back to the profile API.
+dig +short SRV _playing._tcp.chris.username.md
+dig +short TXT _presence.chris.username.md
 ```
 
 ## Verifying signed responses
